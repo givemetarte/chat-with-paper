@@ -2,6 +2,7 @@ import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
 import { getPref } from '../utils/prefs';
 import { addMessage } from './components/ChatMessage';
+import { getChatGPTResponse } from './components/ChatGPT';
 
 export function registerChatWithPDFPaneSection() {
     Zotero.ItemPaneManager.registerSection({
@@ -65,6 +66,34 @@ export function registerChatWithPDFPaneSection() {
                             addMessage(chatMessages, question, 'user');
                             input.value = "";
                             adjustInputHeight();
+
+                            // deactivate the input field
+                            input.disabled = true; 
+
+                            addMessage(chatMessages, "Thinking...", "ai");
+                            const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
+                            
+                            try {
+                                const response = await getChatGPTResponse(question);
+                                // addMessage(chatMessages, response, 'ai');
+                                if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
+                                    thinkingMessage.textContent = response;
+                                } else {
+                                    addMessage(chatMessages, response, 'ai');
+                                }
+                            } catch (error) {
+                                ztoolkit.log("Error getting ChatGPT response:", error);
+                                // addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
+
+                                if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
+                                    thinkingMessage.textContent = "Sorry, I couldn't get a response. Please try again.";
+                                } else {
+                                    addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
+                                }
+                            } finally {
+                                input.disabled = false;
+                                input.focus();
+                            }
                         }
                     }
                 });
