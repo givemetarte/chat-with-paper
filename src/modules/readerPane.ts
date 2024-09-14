@@ -35,7 +35,7 @@ export function registerChatWithPDFPaneSection() {
             if (chatContainer && chatMessages && input) {
                 const adjustContainerHeight = () => {
                     const windowHeight = window.outerHeight;
-                    chatContainer.style.height = `${windowHeight - 115}px`;
+                    chatContainer.style.height = `${windowHeight - 130}px`;
                     adjustMessagesHeight();
                 };
 
@@ -75,18 +75,33 @@ export function registerChatWithPDFPaneSection() {
                             
                             try {
                                 const response = await getChatGPTResponse(question);
-                                // addMessage(chatMessages, response, 'ai');
+
+                                // if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
+                                //     thinkingMessage.textContent = response;
+                                // } else {
+                                //     addMessage(chatMessages, response, 'ai');
+                                // }
                                 if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                    thinkingMessage.textContent = response;
+                                    // Remove the thinking message
+                                    chatMessages.removeChild(thinkingMessage);
+                                    // Add the response message with the same style as addMessage
+                                    addMessage(chatMessages, response, 'ai');
                                 } else {
                                     addMessage(chatMessages, response, 'ai');
                                 }
                             } catch (error) {
                                 ztoolkit.log("Error getting ChatGPT response:", error);
-                                // addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
 
+                                // if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
+                                //     thinkingMessage.textContent = "Sorry, I couldn't get a response. Please try again.";
+                                // } else {
+                                //     addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
+                                // }
                                 if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                    thinkingMessage.textContent = "Sorry, I couldn't get a response. Please try again.";
+                                    // Remove the thinking message
+                                    chatMessages.removeChild(thinkingMessage);
+                                    // Add the error message with the same style as addMessage
+                                    addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
                                 } else {
                                     addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
                                 }

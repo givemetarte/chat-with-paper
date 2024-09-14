@@ -2,18 +2,17 @@ export function addMessage(container: Element | null, text: string, sender: 'use
     if (!container) return;
 
     const messageDiv = document.createElement('div');
-    messageDiv.style.maxWidth = '70%';
-    messageDiv.style.padding = '8px';
-    messageDiv.style.borderRadius = '8px';
-    messageDiv.style.marginBottom = '8px';
     messageDiv.style.wordWrap = 'break-word';
     messageDiv.style.display = 'inline-block';
+    messageDiv.style.marginBottom = '8px';
 
     if (sender === 'user') {
+      messageDiv.style.maxWidth = '70%';
+      messageDiv.style.padding = '8px';
+      messageDiv.style.borderRadius = '8px';
       messageDiv.style.backgroundColor = '#FFFFFF';
       messageDiv.style.marginLeft = 'auto';
     } else {
-      messageDiv.style.backgroundColor = '#e6f2ff';
       messageDiv.style.marginRight = 'auto';
     }
 
@@ -21,6 +20,7 @@ export function addMessage(container: Element | null, text: string, sender: 'use
 
     const wrapperDiv = document.createElement('div');
     wrapperDiv.style.width = '100%';
+    messageDiv.style.padding = '5px';
     wrapperDiv.style.display = 'flex';
     wrapperDiv.style.flexDirection = sender === 'user' ? 'row-reverse' : 'row';
     wrapperDiv.appendChild(messageDiv);
