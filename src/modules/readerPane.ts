@@ -10,11 +10,11 @@ export function registerChatWithPDFPaneSection() {
         pluginID: config.addonID,
         header: {
         l10nID: getLocaleID("item-section-chatwithpdf-head-text"),
-        icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
+        icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
         },
         sidenav: {
         l10nID: getLocaleID("item-section-chatwithpdf-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
+        icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
         },
         bodyXHTML: `
         <div id="chat-with-paper-container" style="display: flex; flex-direction: column; overflow: hidden;">
