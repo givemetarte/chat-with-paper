@@ -1,19 +1,19 @@
 {
-  "name": "zotero-plugin-template",
-  "version": "2.0.2-beta.3",
-  "description": "Zotero Plugin Template",
+  "name": "zotero-chatwithpaper",
+  "version": "0.0.0",
+  "description": "Zotero Plugin Template test",
   "config": {
-    "addonName": "Zotero Plugin Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
+    "addonName": "Chat with Paper",
+    "addonID": "harampark@gmail.com",
+    "addonRef": "chatwithpaper",
     "addonInstance": "AddonTemplate",
-    "prefsPrefix": "extensions.zotero.addontemplate"
+    "prefsPrefix": "extensions.zotero.chatwithpaper"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/windingwind/zotero-plugin-template.git"
   },
-  "author": "windingwind",
+  "author": "harampark",
   "bugs": {
     "url": "https://github.com/windingwind/zotero-plugin-template/issues"
   },

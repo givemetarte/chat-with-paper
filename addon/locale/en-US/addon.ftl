@@ -1,10 +1,10 @@
-startup-begin = Addon is loading
-startup-finish = Addon is ready
-menuitem-label = Addon Template: Helper Examples
-menupopup-label = Addon Template: Menupopup
-menuitem-submenulabel = Addon Template
-menuitem-filemenulabel = Addon Template: File Menuitem
-prefs-title = Template
+startup-begin = Chat with Paper is loading
+startup-finish = Chat with Paper is ready
+menuitem-label = Chat with Paper Template: Helper Examples
+menupopup-label = Chat with Paper Template: Menupopup
+menuitem-submenulabel = Chat with Paper Template
+menuitem-filemenulabel = Chat with Paper Template: File Menuitem
+prefs-title = Chat with Paper
 prefs-table-title = Title
 prefs-table-detail = Detail
 tabpanel-lib-tab-label = Lib Tab

@@ -1,5 +1,6 @@
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
+import { getPref } from '../utils/prefs';
 
 function example(
   target: any,
@@ -237,7 +238,7 @@ export class UIExampleFactory {
       },
       sidenav: {
         l10nID: getLocaleID("item-section-example1-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/save.svg",
+        icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
       },
       onRender: ({ body, item, editable, tabType }) => {
         body.textContent = JSON.stringify({
@@ -263,7 +264,7 @@ export class UIExampleFactory {
       },
       sidenav: {
         l10nID: getLocaleID("item-section-example2-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/save.svg",
+        icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
       },
       // Optional
       bodyXHTML: '<html:h1 id="test">THIS IS TEST</html:h1>',
@@ -333,6 +334,171 @@ export class UIExampleFactory {
       ],
     });
   }
+
+  // @example
+  // static async registerChatWithPDFPaneSection() {
+  //   await Zotero.ItemPaneManager.registerSection({
+  //     paneID: "chat-with-pdf-tabpanel",
+  //     pluginID: config.addonID,
+  //     header: {
+  //       l10nID: getLocaleID("item-section-chatwithpdf-head-text"),
+  //       icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
+  //     },
+  //     sidenav: {
+  //       l10nID: getLocaleID("item-section-chatwithpdf-sidenav-tooltip"),
+  //       icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
+  //     },
+  //     bodyXHTML: `
+  //       <div id="chat-with-pdf-container" style="display: flex; flex-direction: column; height: 100%;">
+  //         <div id="chat-messages" style="flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column;">
+  //           <!-- Chat messages will be appended here -->
+  //         </div>
+  //         <div>
+  //           <html:input type="text" id="chat-input" placeholder="Ask a question about the Paper..." style="width: 100%"/>
+  //         </div>
+  //       </div>
+  //     `,
+  //     onRender: ({ body, item, editable, tabType }) => {
+  //       const chatMessages = body.querySelector('#chat-messages');
+  //       const input = body.querySelector('#chat-input') as HTMLInputElement;
+        
+  //       if (input) {
+  //         input.addEventListener('keypress', async (e) => {
+  //           if (e.key === 'Enter') {
+  //             const question = input.value.trim();
+  //             if (question) {
+  //               ztoolkit.log("Question:", question);
+  //               UIExampleFactory.addMessage(chatMessages, question, 'user');
+  //               input.value = "";
+                
+  //               let loadingMessage: HTMLElement | null = null;
+  //               if (chatMessages) {
+  //                 loadingMessage = UIExampleFactory.addMessage(chatMessages, "Thinking...", 'ai');
+  //               }
+                
+  //               try {
+  //                 const response = await UIExampleFactory.getChatGPTResponse(question);
+  //                 // Remove loading message
+  //                 loadingMessage?.remove()
+  //                 // Add AI response
+  //                 UIExampleFactory.addMessage(chatMessages, response, 'ai');
+  //               } catch (error) {
+  //                 // Remove loading message
+  //                 loadingMessage?.remove()
+  //                 // Show error message
+  //                 UIExampleFactory.addMessage(chatMessages, "Sorry, an error occurred. Please try again.", 'ai');
+  //                 ztoolkit.log("Error getting ChatGPT response:", error);
+  //               }
+  //             }
+  //           }
+  //         });
+  //       }
+  //     },
+  //   });
+  // }
+
+  // private static addMessage(container: Element | null, text: string, sender: 'user' | 'ai') {
+  //   if (!container) return;
+
+  //   const messageDiv = document.createElement('div');
+  //   messageDiv.style.maxWidth = '70%';
+  //   messageDiv.style.padding = '10px';
+  //   messageDiv.style.borderRadius = '15px';
+  //   messageDiv.style.marginBottom = '10px';
+  //   messageDiv.style.wordWrap = 'break-word';
+  //   messageDiv.style.display = 'inline-block';
+
+  //   if (sender === 'user') {
+  //     messageDiv.style.backgroundColor = '#e6f2ff';
+  //     messageDiv.style.marginLeft = 'auto';
+  //   } else {
+  //     messageDiv.style.backgroundColor = '#f0f0f0';
+  //     messageDiv.style.marginRight = 'auto';
+  //   }
+
+  //   messageDiv.textContent = text;
+
+  //   const wrapperDiv = document.createElement('div');
+  //   wrapperDiv.style.width = '100%';
+  //   wrapperDiv.style.display = 'flex';
+  //   wrapperDiv.style.flexDirection = sender === 'user' ? 'row-reverse' : 'row';
+  //   wrapperDiv.appendChild(messageDiv);
+
+  //   container.appendChild(wrapperDiv);
+  //   container.scrollTop = container.scrollHeight;
+  // }
+
+  // private static getApiKey(): string {
+  //   const apiKey = getPref('apiKey') as string || '';
+  //   ztoolkit.log(`Getting API key, value: ${apiKey}`);
+  //   return apiKey;
+  // }
+
+  // private static async getChatGPTResponse(question: string): Promise<string> {
+  //   const apiKey = this.getApiKey();
+  //   ztoolkit.log("API Key:", apiKey);
+  //   if (!apiKey) {
+  //     throw new Error("API key is not set. Please set it in the addon preferences.");
+  //   }
+  //   const apiUrl = 'https://api.openai.com/v1/chat/completions';
+
+  //   try {
+  //     // 현재 열려있는 PDF의 텍스트 추출
+  //     const pdfText = await this.getCurrentPDFText();
+      
+  //     // 텍스트 길이 제한 (예: 최대 2000자)
+  //     const truncatedPdfText = pdfText.slice(0, 2000);
+
+  //     // 질문과 PDF 텍스트 결합
+  //     const prompt = `The following is an excerpt from a research paper: "${truncatedPdfText}"\n\nBased on this information, please answer the following question: ${question}`;
+
+  //     ztoolkit.log("Sending request to ChatGPT API...");
+  //     ztoolkit.log("Prompt:", prompt);
+
+  //     const response = await fetch(apiUrl, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${apiKey}`
+  //       },
+  //       body: JSON.stringify({
+  //         model: 'gpt-3.5-turbo',
+  //         messages: [{ role: 'user', content: prompt }],
+  //         temperature: 0.7
+  //       })
+  //     });
+
+  //     ztoolkit.log("Response status:", response.status);
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+      
+  //     const data = await response.json();
+  //     ztoolkit.log("Response:", data);
+
+  //     return data.choices[0].message.content.trim();
+  //   } catch (error) {
+  //     ztoolkit.log("Error in getChatGPTResponse:", error);
+  //     throw error;
+  //   }
+  // }
+
+  // private static async getCurrentPDFText(): Promise<string> {
+  //   try {
+  //     const reader = Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
+  //     if (!reader) {
+  //       throw new Error("No PDF reader is currently open.");
+  //     }
+  //     ztoolkit.log("Reader:", reader);
+
+  //     const text = await reader.getText() || await reader.getText();
+  //     return text;
+  //   } catch (error) {
+  //     ztoolkit.log("Error getting PDF text:", error);
+  //     throw error;
+  //   }
+  // }
 }
 
 export class PromptExampleFactory {
