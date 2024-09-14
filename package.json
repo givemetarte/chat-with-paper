@@ -4,7 +4,7 @@
   "description": "Zotero Plugin Template test",
   "config": {
     "addonName": "Chat with Paper",
-    "addonID": "harampark@gmail.com",
+    "addonID": "chatwithpaper@harampark.com",
     "addonRef": "chatwithpaper",
     "addonInstance": "AddonTemplate",
     "prefsPrefix": "extensions.zotero.chatwithpaper"
@@ -28,6 +28,7 @@
     "update-deps": "npm update --save"
   },
   "dependencies": {
+    "zotero-plugin": "^2.0.30",
     "zotero-plugin-toolkit": "^3.0.0"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@types/node": "^22.5.0",
     "eslint": "^9.9.1",
     "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.3.0",
     "zotero-plugin-scaffold": "^0.1.0",
