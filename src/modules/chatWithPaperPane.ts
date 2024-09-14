@@ -125,6 +125,6 @@ export function registerChatWithPDFPaneSection() {
                     window.removeEventListener('resize', adjustContainerHeight);
                 };
             }     
-        }
+        },
     });
 }
