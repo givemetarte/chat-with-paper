@@ -9,16 +9,16 @@ export function registerChatWithPDFPaneSection() {
         paneID: "chat-with-pdf-tabpanel",
         pluginID: config.addonID,
         header: {
-        l10nID: getLocaleID("item-section-chatwithpdf-head-text"),
-        icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
+            l10nID: getLocaleID("item-section-chatwithpdf-head-text"),
+            icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
         },
         sidenav: {
-        l10nID: getLocaleID("item-section-chatwithpdf-sidenav-tooltip"),
-        icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
+            l10nID: getLocaleID("item-section-chatwithpdf-sidenav-tooltip"),
+            icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
         },
         bodyXHTML: `
         <div id="chat-with-paper-container" style="display: flex; flex-direction: column; overflow: hidden;">
-            <div id="chat-messages" style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column;">
+        <div id="chat-messages" style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column;">
             <!-- Chat messages will be appended here -->
             </div>
             <div style="background-color: #f0f0f0; border-radius: 8px; padding: 5px;">
