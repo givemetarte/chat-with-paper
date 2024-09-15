@@ -1,4 +1,5 @@
-export function splitTextIntoChunks(text: string, chunkSize: number = 1000): string[] {
+export function splitTextIntoChunks(text: string, chunkSize: number = 1000, overlapSize: number = 200): string[] {
+
   if (!text) {
     return [];
   }
@@ -10,7 +11,7 @@ export function splitTextIntoChunks(text: string, chunkSize: number = 1000): str
     const endIndex = Math.min(startIndex + chunkSize, text.length);
     const chunk = text.slice(startIndex, endIndex);
     chunks.push(chunk);
-    startIndex = endIndex;
+    startIndex += (chunkSize - overlapSize); 
   }
 
   ztoolkit.log("Text chunks:", chunks);
