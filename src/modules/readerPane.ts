@@ -1,7 +1,8 @@
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
+import { getChatGPTResponse } from './api/llmApiClient';
 import { addMessage } from './components/ChatMessage';
-import { getChatGPTResponse } from './components/ChatGPT';
+
 
 export function registerChatWithPDFPaneSection() {
     Zotero.ItemPaneManager.registerSection({
@@ -26,94 +27,109 @@ export function registerChatWithPDFPaneSection() {
             </div>
         </div>
         `,
-        onRender: async ({ body, item }) => {
+        onRender: ({ body, item }) => {
             const chatContainer = body.querySelector('#chat-with-paper-container') as HTMLElement;
-            const chatMessages = body.querySelector('#chat-messages') as HTMLElement;
             const input = body.querySelector('#chat-input') as HTMLTextAreaElement;
+            const chatMessages = body.querySelector('#chat-messages') as HTMLElement;
             
-            if (chatContainer && chatMessages && input) {
-                const adjustContainerHeight = () => {
-                    const windowHeight = window.outerHeight;
-                    chatContainer.style.height = `${windowHeight - 130}px`;
-                    adjustMessagesHeight();
-                };
-
-                const adjustMessagesHeight = () => {
-                    const containerHeight = chatContainer.clientHeight;
-                    const inputHeight = input.offsetHeight;
-                    chatMessages.style.height = `${containerHeight - inputHeight - 10}px`; 
-                };
-
-                const adjustInputHeight = () => {
-                    input.style.height = '10px';
-                    input.style.height = `${Math.min(input.scrollHeight, 150)}px`;
-                    input.scrollTop = 0;
-                    adjustMessagesHeight();
-                };
-
-                input.addEventListener('input', () => {
-                    adjustInputHeight();
-                    input.setSelectionRange(input.value.length, input.value.length);
-                });
+            if (chatContainer && input && chatMessages) {
+                const cleanup = adjustContainerHeight(chatContainer, input);
 
                 input.addEventListener('keypress', async (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
-                        const question = input.value.trim();
-                        if (question) {
-                            ztoolkit.log("Question:", question);
-                            addMessage(chatMessages, question, 'user');
-                            input.value = "";
-                            adjustInputHeight();
-
-                            // deactivate the input field
-                            input.disabled = true; 
-
-                            addMessage(chatMessages, "💭 Thinking...", "ai");
-                            const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
-                            
-                            try {
-                                const response = await getChatGPTResponse(question);
-
-                                if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                    // Remove the thinking message
-                                    chatMessages.removeChild(thinkingMessage);
-                                    // Add the response message with the same style as addMessage
-                                    addMessage(chatMessages, response, 'ai');
-                                } else {
-                                    addMessage(chatMessages, response, 'ai');
-                                }
-                            } catch (error) {
-                                ztoolkit.log("Error getting ChatGPT response:", error);
-
-                                if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                    // Remove the thinking message
-                                    chatMessages.removeChild(thinkingMessage);
-                                    // Add the error message with the same style as addMessage
-                                    addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
-                                } else {
-                                    addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
-                                }
-                            } finally {
-                                input.disabled = false;
-                                input.focus();
-                            }
-                        }
+                        await handleUserInput(input, chatMessages);
+                        
                     }
                 });
 
-                // Initial height adjustments
-                adjustContainerHeight();
-                adjustInputHeight();
-
-                // resize when window is resized
-                window.addEventListener('resize', adjustContainerHeight);
-
-                // Clean up function
-                return () => {
-                    window.removeEventListener('resize', adjustContainerHeight);
-                };
-            }     
+                // 정리 함수 반환
+                return cleanup;
+            }
         },
     });
 }
+
+
+function adjustContainerHeight(chatContainer: HTMLElement, input: HTMLTextAreaElement) {
+    const chatMessages = chatContainer.querySelector('#chat-messages') as HTMLElement;
+    
+    const adjustHeight = () => {
+        const windowHeight = window.outerHeight;
+        chatContainer.style.height = `${windowHeight - 130}px`;
+        adjustMessagesHeight();
+    };
+
+    const adjustMessagesHeight = () => {
+        if (chatMessages) {
+            const containerHeight = chatContainer.clientHeight;
+            const inputHeight = input.offsetHeight;
+            chatMessages.style.height = `${containerHeight - inputHeight - 10}px`; 
+        }
+    };
+
+    const adjustInputHeight = () => {
+        input.style.height = '10px';
+        input.style.height = `${Math.min(input.scrollHeight, 150)}px`;
+        input.scrollTop = 0;
+        adjustMessagesHeight();
+    };
+
+    // adjust initial height
+    adjustHeight();
+    adjustInputHeight();
+
+    // set event listeners
+    window.addEventListener('resize', adjustHeight);
+    input.addEventListener('input', adjustInputHeight);
+
+    // return cleanup function
+    return () => {
+        window.removeEventListener('resize', adjustHeight);
+        input.removeEventListener('input', adjustInputHeight);
+    };
+}
+
+
+async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLElement) {
+    const question = input.value.trim();
+    if (!question) return;
+
+    ztoolkit.log("Question:", question);
+    addMessage(chatMessages, question, 'user');
+    input.value = "";
+
+    // deactivate the input field
+    input.disabled = true; 
+
+    addMessage(chatMessages, "💭 Thinking...", "ai");
+    const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
+    
+    try {
+        const response = await getChatGPTResponse(question);
+
+        if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
+            // Remove the thinking message
+            chatMessages.removeChild(thinkingMessage);
+            // Add the response message with the same style as addMessage
+            addMessage(chatMessages, response, 'ai');
+        } else {
+            addMessage(chatMessages, response, 'ai');
+        }
+    } catch (error) {
+        ztoolkit.log("Error getting ChatGPT response:", error);
+
+        if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
+            // Remove the thinking message
+            chatMessages.removeChild(thinkingMessage);
+            // Add the error message with the same style as addMessage
+            addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
+        } else {
+            addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
+        }
+    } finally {
+        input.disabled = false;
+        input.focus();
+    }
+}
+
