@@ -2,6 +2,7 @@ import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
 import { getChatGPTResponse } from './api/llmApiClient';
 import { addMessage } from './components/ChatMessage';
+import { pdfTextCache } from './tools/pdfTextCache';
 
 
 export function registerChatWithPDFPaneSection() {
@@ -27,7 +28,7 @@ export function registerChatWithPDFPaneSection() {
             </div>
         </div>
         `,
-        onRender: ({ body, item }) => {
+        onRender: async ({ body, item }) => {
             const chatContainer = body.querySelector('#chat-with-paper-container') as HTMLElement;
             const input = body.querySelector('#chat-input') as HTMLTextAreaElement;
             const chatMessages = body.querySelector('#chat-messages') as HTMLElement;
@@ -38,7 +39,7 @@ export function registerChatWithPDFPaneSection() {
                 input.addEventListener('keypress', async (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
-                        await handleUserInput(input, chatMessages);
+                        await handleUserInput(input, chatMessages, item);
                         
                     }
                 });
@@ -91,7 +92,7 @@ function adjustContainerHeight(chatContainer: HTMLElement, input: HTMLTextAreaEl
 }
 
 
-async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLElement) {
+async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLElement, item: Zotero.Item) {
     const question = input.value.trim();
     if (!question) return;
 
@@ -106,6 +107,8 @@ async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLEle
     const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
     
     try {
+        const pdfText = await pdfTextCache.getPDFText(item);
+        ztoolkit.log("PDF Text:", pdfText);
         const response = await getChatGPTResponse(question);
 
         if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
