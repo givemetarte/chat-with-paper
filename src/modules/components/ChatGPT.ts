@@ -11,10 +11,10 @@ export function getApiKey(): string {
 export function getChatGPTResponse(question: string): Promise<string> {
     const apiKey = getApiKey();
 
-    if (!apiKey) {
-        throw new Error("API key is not set. Please set it in the addon preferences.");
+    if (!apiKey || apiKey.trim() === '') {
+        return Promise.resolve("API key is not set. Please set it in the addon preferences.");
     }
-    
+
     const responses = [
         "That's an interesting question. Let me think about it.",
         "I understand your query. Here's what I think...",
