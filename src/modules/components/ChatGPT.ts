@@ -15,7 +15,7 @@ export async function getChatGPTResponse(question: string): Promise<string> {
         return "API key is not set. Please set it in the addon preferences.";
     }
 
-    const apiUrl = 'https://api.openai.com/v1/chat/completion';
+    const apiUrl = 'https://api.openai.com/v1/chat/completions';
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',

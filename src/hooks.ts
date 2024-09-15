@@ -10,7 +10,7 @@ import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
 // added by me
-import { registerChatWithPDFPaneSection } from "./modules/chatWithPaperPane";
+import { registerChatWithPDFPaneSection } from "./modules/readerPane";
 
 async function onStartup() {
   await Promise.all([

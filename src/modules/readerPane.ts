@@ -69,7 +69,7 @@ export function registerChatWithPDFPaneSection() {
                             // deactivate the input field
                             input.disabled = true; 
 
-                            addMessage(chatMessages, "Thinking...", "ai");
+                            addMessage(chatMessages, "💭 Thinking...", "ai");
                             const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
                             
                             try {
