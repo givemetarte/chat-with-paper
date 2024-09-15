@@ -8,13 +8,14 @@ export function getApiKey(): string {
     return apiKey;
 }
 
-export async function getChatGPTResponse(question: string): Promise<string> {
+export async function getChatGPTResponse(question: string, context: string): Promise<string> {
     const apiKey = getApiKey(); // API 키를 가져옵니다.
 
     if (!apiKey || apiKey.trim() === '') {
         return "API key is not set. Please set it in the addon preferences.";
     }
-
+    const prompt = `Context: ${context}\n\nQuestion: ${question}\n\nAnswer:`;
+    ztoolkit.log(`Prompt: ${prompt}`);
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
     try {
         const response = await fetch(apiUrl, {
@@ -25,7 +26,7 @@ export async function getChatGPTResponse(question: string): Promise<string> {
             },
             body: JSON.stringify({
                 model: "gpt-3.5-turbo",
-                messages: [{ role: "user", content: question }],
+                messages: [{ role: "user", content: prompt }],
                 temperature: 0.7
             })
         });

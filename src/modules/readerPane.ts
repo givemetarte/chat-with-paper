@@ -4,6 +4,11 @@ import { getChatGPTResponse } from './api/llmApiClient';
 import { addMessage } from './components/ChatMessage';
 import { pdfTextCache } from './tools/pdfTextCache';
 import { splitTextIntoChunks } from './tools/splitTextIntoChunks';
+import { createEmbedding } from './tools/createEmbedding';
+import { SimpleVectorDB } from './tools/simpleVectorDB';
+import { searchRelevantContext } from './tools/searchRelevant';
+
+
 
 
 export function registerChatWithPDFPaneSection() {
@@ -109,10 +114,17 @@ async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLEle
     
     try {
         const pdfText = await pdfTextCache.getPDFText(item);
-        ztoolkit.log("PDF Text:", pdfText);
+        // ztoolkit.log("PDF Text:", pdfText);
         const chunks = await splitTextIntoChunks(pdfText);
-        ztoolkit.log("Chunks:", chunks);
-        const response = await getChatGPTResponse(question);
+        // ztoolkit.log("Chunks:", chunks);
+        
+        const db = new SimpleVectorDB(); // 클래스를 사용하여 새 인스턴스 생성
+        for (const chunk of chunks) {
+            const embedding = await createEmbedding(chunk);
+            db.add(chunk, embedding);
+        }
+        const relevantContext = await searchRelevantContext(db, question);
+        const response = await getChatGPTResponse(question, relevantContext);
 
         if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
             // Remove the thinking message
