@@ -76,11 +76,6 @@ export function registerChatWithPDFPaneSection() {
                             try {
                                 const response = await getChatGPTResponse(question);
 
-                                // if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                //     thinkingMessage.textContent = response;
-                                // } else {
-                                //     addMessage(chatMessages, response, 'ai');
-                                // }
                                 if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
                                     // Remove the thinking message
                                     chatMessages.removeChild(thinkingMessage);
@@ -92,11 +87,6 @@ export function registerChatWithPDFPaneSection() {
                             } catch (error) {
                                 ztoolkit.log("Error getting ChatGPT response:", error);
 
-                                // if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                //     thinkingMessage.textContent = "Sorry, I couldn't get a response. Please try again.";
-                                // } else {
-                                //     addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
-                                // }
                                 if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
                                     // Remove the thinking message
                                     chatMessages.removeChild(thinkingMessage);
