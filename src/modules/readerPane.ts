@@ -1,6 +1,5 @@
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
-import { getPref } from '../utils/prefs';
 import { addMessage } from './components/ChatMessage';
 import { getChatGPTResponse } from './components/ChatGPT';
 
@@ -27,7 +26,7 @@ export function registerChatWithPDFPaneSection() {
             </div>
         </div>
         `,
-        onRender: ({ body, item }) => {
+        onRender: async ({ body, item }) => {
             const chatContainer = body.querySelector('#chat-with-paper-container') as HTMLElement;
             const chatMessages = body.querySelector('#chat-messages') as HTMLElement;
             const input = body.querySelector('#chat-input') as HTMLTextAreaElement;
@@ -70,17 +69,12 @@ export function registerChatWithPDFPaneSection() {
                             // deactivate the input field
                             input.disabled = true; 
 
-                            addMessage(chatMessages, "Thinking...", "ai");
+                            addMessage(chatMessages, "💭 Thinking...", "ai");
                             const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
                             
                             try {
                                 const response = await getChatGPTResponse(question);
 
-                                // if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                //     thinkingMessage.textContent = response;
-                                // } else {
-                                //     addMessage(chatMessages, response, 'ai');
-                                // }
                                 if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
                                     // Remove the thinking message
                                     chatMessages.removeChild(thinkingMessage);
@@ -92,11 +86,6 @@ export function registerChatWithPDFPaneSection() {
                             } catch (error) {
                                 ztoolkit.log("Error getting ChatGPT response:", error);
 
-                                // if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
-                                //     thinkingMessage.textContent = "Sorry, I couldn't get a response. Please try again.";
-                                // } else {
-                                //     addMessage(chatMessages, "Sorry, I couldn't get a response. Please try again.", 'ai');
-                                // }
                                 if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
                                     // Remove the thinking message
                                     chatMessages.removeChild(thinkingMessage);
