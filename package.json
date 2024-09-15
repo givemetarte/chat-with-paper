@@ -1,6 +1,6 @@
 {
   "name": "zotero-chatwithpaper",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Zotero Plugin Template test",
   "config": {
     "addonName": "Chat with Paper",

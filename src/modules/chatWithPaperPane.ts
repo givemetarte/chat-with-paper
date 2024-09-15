@@ -1,6 +1,5 @@
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
-import { getPref } from '../utils/prefs';
 import { addMessage } from './components/ChatMessage';
 import { getChatGPTResponse } from './components/ChatGPT';
 
@@ -27,7 +26,7 @@ export function registerChatWithPDFPaneSection() {
             </div>
         </div>
         `,
-        onRender: ({ body, item }) => {
+        onRender: async ({ body, item }) => {
             const chatContainer = body.querySelector('#chat-with-paper-container') as HTMLElement;
             const chatMessages = body.querySelector('#chat-messages') as HTMLElement;
             const input = body.querySelector('#chat-input') as HTMLTextAreaElement;
