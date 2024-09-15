@@ -3,6 +3,7 @@ import { getLocaleID, getString } from "../utils/locale";
 import { getChatGPTResponse } from './api/llmApiClient';
 import { addMessage } from './components/ChatMessage';
 import { pdfTextCache } from './tools/pdfTextCache';
+import { splitTextIntoChunks } from './tools/splitTextIntoChunks';
 
 
 export function registerChatWithPDFPaneSection() {
@@ -109,6 +110,8 @@ async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLEle
     try {
         const pdfText = await pdfTextCache.getPDFText(item);
         ztoolkit.log("PDF Text:", pdfText);
+        const chunks = await splitTextIntoChunks(pdfText);
+        ztoolkit.log("Chunks:", chunks);
         const response = await getChatGPTResponse(question);
 
         if (thinkingMessage && chatMessages.contains(thinkingMessage)) {
