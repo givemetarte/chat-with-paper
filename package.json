@@ -35,8 +35,8 @@
     "@types/node": "^22.10.1",
     "eslint": "^9.16.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.3.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.17.0",
     "zotero-plugin-scaffold": "^0.1.7",
     "zotero-types": "^2.1.1"
   },
