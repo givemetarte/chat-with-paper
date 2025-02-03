@@ -1,19 +1,19 @@
 {
-  "name": "zotero-plugin-template",
-  "version": "2.0.2-beta.3",
-  "description": "Zotero Plugin Template",
+  "name": "zotero-chatwithpaper",
+  "version": "0.0.1",
+  "description": "Zotero Plugin Template test",
   "config": {
-    "addonName": "Zotero Plugin Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
+    "addonName": "Chat with Paper",
+    "addonID": "chatwithpaper@harampark.com",
+    "addonRef": "chatwithpaper",
     "addonInstance": "AddonTemplate",
-    "prefsPrefix": "extensions.zotero.addontemplate"
+    "prefsPrefix": "extensions.zotero.chatwithpaper"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/windingwind/zotero-plugin-template.git"
   },
-  "author": "windingwind",
+  "author": "harampark",
   "bugs": {
     "url": "https://github.com/windingwind/zotero-plugin-template/issues"
   },
@@ -28,13 +28,16 @@
     "update-deps": "npm update --save"
   },
   "dependencies": {
-    "zotero-plugin-toolkit": "^4.0.11"
+    "pdfjs-dist": "^4.6.82",
+    "zotero-plugin": "^2.0.30",
+    "zotero-plugin-toolkit": "^3.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.18.0",
-    "@types/node": "^22.10.1",
-    "eslint": "^9.18.0",
-    "prettier": "^3.4.2",
+    "@eslint/js": "^9.9.1",
+    "@types/node": "^22.5.0",
+    "eslint": "^9.9.1",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.19.1",
     "zotero-plugin-scaffold": "^0.1.7",

@@ -21,7 +21,7 @@ export async function registerPrefsScripts(_window: Window) {
       ],
       rows: [
         {
-          title: "Orange",
+          title: "Orageee",
           detail: "It's juicy",
         },
         {
@@ -118,14 +118,29 @@ function bindPrefEvents() {
       );
     });
 
-  addon.data
-    .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-input`,
-    )
-    ?.addEventListener("change", (e) => {
-      ztoolkit.log(e);
-      addon.data.prefs!.window.alert(
-        `Successfully changed to ${(e.target as HTMLInputElement).value}!`,
-      );
-    });
+  // addon.data
+  //   .prefs!.window.document.querySelector(
+  //     `#zotero-prefpane-${config.addonRef}-input`,
+  //   )
+  //   ?.addEventListener("change", (e) => {
+  //     ztoolkit.log(e);
+  //     addon.data.prefs!.window.alert(
+  //       `Successfully changed to ${(e.target as HTMLInputElement).value}!`,
+  //     );
+  //   });
+
+  const inputIds = ['api', 'base-url'];
+
+  inputIds.forEach(id => {
+    addon.data
+      .prefs!.window.document.querySelector(
+        `#zotero-prefpane-${config.addonRef}-input-${id}`
+      )
+      ?.addEventListener("change", (e) => {
+        ztoolkit.log(e);
+        addon.data.prefs!.window.alert(
+          `Successfully changed ${id} to ${(e.target as HTMLInputElement).value}!`
+        );
+      });
+  });
 }

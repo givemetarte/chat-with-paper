@@ -9,6 +9,8 @@ import { config } from "../package.json";
 import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
+// added by me
+import { registerChatWithPDFPaneSection } from "./modules/readerPane";
 
 async function onStartup() {
   await Promise.all([
@@ -29,9 +31,15 @@ async function onStartup() {
 
   await UIExampleFactory.registerExtraColumnWithCustomCell();
 
-  UIExampleFactory.registerItemPaneSection();
+  // UIExampleFactory.registerItemPaneSection();
 
-  UIExampleFactory.registerReaderItemPaneSection();
+  // UIExampleFactory.registerReaderItemPaneSection();
+
+  // added by me 
+  // UIExampleFactory.registerChatWithPDFPaneSection()
+
+  // added by me
+  registerChatWithPDFPaneSection();
 
   await onMainWindowLoad(window);
 }

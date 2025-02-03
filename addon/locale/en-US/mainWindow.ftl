@@ -8,3 +8,7 @@ item-section-example2-sidenav-tooltip =
     .tooltiptext = This is Plugin Template section (reader)
 item-section-example2-button-tooltip =
     .tooltiptext = Unregister this section
+item-section-chatwithpdf-head-text =
+    .label = Chat with Paper 
+item-section-chatwithpdf-sidenav-tooltip =
+    .tooltiptext = Chat with Paper 

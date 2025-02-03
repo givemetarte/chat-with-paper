@@ -1,5 +1,6 @@
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
+import { getPref } from '../utils/prefs';
 
 function example(
   target: any,
@@ -237,7 +238,7 @@ export class UIExampleFactory {
       },
       sidenav: {
         l10nID: getLocaleID("item-section-example1-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/save.svg",
+        icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
       },
       onRender: ({ body, item, editable, tabType }) => {
         body.textContent = JSON.stringify({
@@ -263,7 +264,7 @@ export class UIExampleFactory {
       },
       sidenav: {
         l10nID: getLocaleID("item-section-example2-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/save.svg",
+        icon: "chrome://zotero/skin/20/universal/magic-wand.svg",
       },
       // Optional
       bodyXHTML: '<html:h1 id="test">THIS IS TEST</html:h1>',
