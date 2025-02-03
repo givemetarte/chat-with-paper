@@ -25,7 +25,7 @@ export async function getChatGPTResponse(question: string, context: string): Pro
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: "gpt-3.5-turbo",
+                model: "gpt-4o-2024-08-06",
                 messages: [{ role: "user", content: prompt }],
                 temperature: 0.7
             })

@@ -1,4 +1,4 @@
-export function splitTextIntoChunks(text: string, chunkSize: number = 1000, overlapSize: number = 200): string[] {
+export function splitTextIntoChunks(text: string, chunkSize: number = 1024, overlapSize: number = 200): string[] {
 
   if (!text) {
     return [];
