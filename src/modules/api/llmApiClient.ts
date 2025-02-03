@@ -33,12 +33,13 @@ export async function getChatGPTResponse(question: string, context: string): Pro
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error?.message || 'Unknown error'}`);
+            const errorMessage = (errorData as { error?: { message?: string } }).error?.message || 'Unknown error';
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorMessage}`);
         }
 
-        const data = await response.json();
+        const data = await response.json() as { choices?: { message: { content: string } }[] };
 
-        if (data && data.choices && data.choices.length > 0) {
+        if (data.choices && data.choices.length > 0) {
             return data.choices[0].message.content;
         } else {
             throw new Error("Received an empty response from ChatGPT.");

@@ -5,7 +5,7 @@ export async function createEmbedding(text: string): Promise<number[]> {
 
     const apiKey = getPref('apiKey') as string || '';
     if (!apiKey || apiKey.trim() === '') {
-        return "API key is not set. Please set it in the addon preferences.";
+        return [];
     }
 
     const apiUrl = 'https://api.openai.com/v1/embeddings';
@@ -24,10 +24,12 @@ export async function createEmbedding(text: string): Promise<number[]> {
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error?.message || 'Unknown error'}`);
+            const errorMessage = (errorData as { error?: { message?: string } }).error?.message || 'Unknown error';
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorMessage}`);
         }
 
-        const result = await response.json();
+        const result = await response.json() as unknown as { data: { embedding: number[] }[] };
+        // ztoolkit.log("Creating embedding for text:", result.data[0].embedding);
         return result.data[0].embedding;
     } catch (error) {
         if (error instanceof Error) {

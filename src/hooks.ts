@@ -20,82 +20,11 @@ async function onStartup() {
   ]);
 
   initLocale();
-
   BasicExampleFactory.registerPrefs();
-
   BasicExampleFactory.registerNotifier();
-
-  KeyExampleFactory.registerShortcuts();
-
   await UIExampleFactory.registerExtraColumn();
-
   await UIExampleFactory.registerExtraColumnWithCustomCell();
-
-  // UIExampleFactory.registerItemPaneSection();
-
-  // UIExampleFactory.registerReaderItemPaneSection();
-
-  // added by me 
-  // UIExampleFactory.registerChatWithPDFPaneSection()
-
-  // added by me
   registerChatWithPDFPaneSection();
-
-  await onMainWindowLoad(window);
-}
-
-async function onMainWindowLoad(win: Window): Promise<void> {
-  // Create ztoolkit for every window
-  addon.data.ztoolkit = createZToolkit();
-
-  // @ts-ignore This is a moz feature
-  window.MozXULElement.insertFTLIfNeeded(`${config.addonRef}-mainWindow.ftl`);
-
-  const popupWin = new ztoolkit.ProgressWindow(config.addonName, {
-    closeOnClick: true,
-    closeTime: -1,
-  })
-    .createLine({
-      text: getString("startup-begin"),
-      type: "default",
-      progress: 0,
-    })
-    .show();
-
-  await Zotero.Promise.delay(1000);
-  popupWin.changeLine({
-    progress: 30,
-    text: `[30%] ${getString("startup-begin")}`,
-  });
-
-  UIExampleFactory.registerStyleSheet();
-
-  UIExampleFactory.registerRightClickMenuItem();
-
-  UIExampleFactory.registerRightClickMenuPopup();
-
-  UIExampleFactory.registerWindowMenuWithSeparator();
-
-  PromptExampleFactory.registerNormalCommandExample();
-
-  PromptExampleFactory.registerAnonymousCommandExample();
-
-  PromptExampleFactory.registerConditionalCommandExample();
-
-  await Zotero.Promise.delay(1000);
-
-  popupWin.changeLine({
-    progress: 100,
-    text: `[100%] ${getString("startup-finish")}`,
-  });
-  popupWin.startCloseTimer(5000);
-
-  addon.hooks.onDialogEvents("dialogExample");
-}
-
-async function onMainWindowUnload(win: Window): Promise<void> {
-  ztoolkit.unregisterAll();
-  addon.data.dialog?.window?.close();
 }
 
 function onShutdown(): void {
@@ -145,40 +74,6 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
   }
 }
 
-function onShortcuts(type: string) {
-  switch (type) {
-    case "larger":
-      KeyExampleFactory.exampleShortcutLargerCallback();
-      break;
-    case "smaller":
-      KeyExampleFactory.exampleShortcutSmallerCallback();
-      break;
-    default:
-      break;
-  }
-}
-
-function onDialogEvents(type: string) {
-  switch (type) {
-    case "dialogExample":
-      HelperExampleFactory.dialogExample();
-      break;
-    case "clipboardExample":
-      HelperExampleFactory.clipboardExample();
-      break;
-    case "filePickerExample":
-      HelperExampleFactory.filePickerExample();
-      break;
-    case "progressWindowExample":
-      HelperExampleFactory.progressWindowExample();
-      break;
-    case "vtableExample":
-      HelperExampleFactory.vtableExample();
-      break;
-    default:
-      break;
-  }
-}
 
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.
@@ -187,10 +82,8 @@ function onDialogEvents(type: string) {
 export default {
   onStartup,
   onShutdown,
-  onMainWindowLoad,
-  onMainWindowUnload,
+  // onMainWindowLoad,
+  // onMainWindowUnload,
   onNotify,
   onPrefsEvent,
-  onShortcuts,
-  onDialogEvents,
 };
