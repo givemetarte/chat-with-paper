@@ -30,7 +30,7 @@
   "dependencies": {
     "pdfjs-dist": "^4.6.82",
     "zotero-plugin": "^2.0.30",
-    "zotero-plugin-toolkit": "^3.0.0"
+    "zotero-plugin-toolkit": "^4.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
