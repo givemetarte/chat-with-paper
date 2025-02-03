@@ -39,5 +39,5 @@ Features about Chat with Paper:
 - [ ] Encrypt and store API keys
 - [ ] Support language models other than ChatGPT (Claude-sonnet..., etc)
 - [ ] Refactor code based on LangChain
-- [ ] Refactor code based on LangChain
+- [ ] Improve response speed
 - [ ] Generate responses reflecting past conversations
