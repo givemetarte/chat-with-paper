@@ -8,6 +8,8 @@ import { createEmbedding } from './tools/createEmbedding';
 import { SimpleVectorDB } from './tools/simpleVectorDB';
 import { searchRelevantContext } from './tools/searchRelevant';
 
+// SimpleVectorDB 인스턴스를 전역 또는 클로저에서 관리
+let vectorDB: SimpleVectorDB | null = null;
 
 export function registerChatWithPDFPaneSection() {
     Zotero.ItemPaneManager.registerSection({
@@ -111,17 +113,19 @@ async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLEle
     const thinkingMessage = chatMessages.lastElementChild as HTMLElement;
     
     try {
-        const pdfText = await pdfTextCache.getPDFText(item);
-        // ztoolkit.log("PDF Text:", pdfText);
-        const chunks = await splitTextIntoChunks(pdfText);
-        // ztoolkit.log("Chunks:", chunks);
-        
-        const db = new SimpleVectorDB(); // 클래스를 사용하여 새 인스턴스 생성
-        for (const chunk of chunks) {
-            const embedding = await createEmbedding(chunk);
-            db.add(chunk, embedding);
+        // 벡터 DB가 없을 때만 초기화
+        if (!vectorDB) {
+            const pdfText = await pdfTextCache.getPDFText(item);
+            const chunks = await splitTextIntoChunks(pdfText);
+            
+            vectorDB = new SimpleVectorDB();
+            for (const chunk of chunks) {
+                const embedding = await createEmbedding(chunk);
+                vectorDB.add(chunk, embedding);
+            }
         }
-        const relevantContext = await searchRelevantContext(db, question);
+
+        const relevantContext = await searchRelevantContext(vectorDB, question);
         const response = await getChatGPTResponse(question, relevantContext);
 
         if (thinkingMessage && chatMessages.contains(thinkingMessage)) {

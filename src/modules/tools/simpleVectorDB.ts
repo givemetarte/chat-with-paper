@@ -10,6 +10,18 @@ class SimpleVectorDB {
       this.entries.push({ text, embedding });
   }
 
+  // 캐시에 저장하기 위한 데이터 준비
+  toCache(): { entries: VectorEntry[] } {
+      return {
+          entries: this.entries
+      };
+  }
+
+  // 캐시에서 데이터 로드
+  loadFromCache(data: { entries: VectorEntry[] }) {
+      this.entries = data.entries;
+  }
+
   search(queryEmbedding: number[], topK: number = 3): string[] {
       const scored = this.entries.map(entry => ({
           text: entry.text,
