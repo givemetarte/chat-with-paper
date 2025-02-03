@@ -5,9 +5,9 @@ class PDFTextCache {
     async getPDFText(item: Zotero.Item): Promise<string> {
         const itemID = item.id;
         
-        if (this.currentItemID !== itemID || this.pdfText === null) {
+        if (this.currentItemID !== itemID.toString() || this.pdfText === null) {
             this.pdfText = await this.extractPDFText(item);
-            this.currentItemID = itemID;
+            this.currentItemID = itemID.toString();
             // ztoolkit.log("PDF Text extracted:", this.pdfText);
         }
         
@@ -26,6 +26,8 @@ class PDFTextCache {
             }
             throw new Error("No PDF attachment found for this item");
         }
+        
+        return "";  // attachment가 없는 경우 빈 문자열 반환
     }
 
     clearCache() {

@@ -1,7 +1,7 @@
 {
   "name": "zotero-chatwithpaper",
   "version": "0.0.1",
-  "description": "Zotero Plugin Template test",
+  "description": "Chat with Paper: Zotero plugin",
   "config": {
     "addonName": "Chat with Paper",
     "addonID": "chatwithpaper@harampark.com",
@@ -11,13 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/windingwind/zotero-plugin-template.git"
+    "url": "git+https://github.com/givemetarte/chat-with-paper.git"
   },
   "author": "harampark",
   "bugs": {
-    "url": "https://github.com/windingwind/zotero-plugin-template/issues"
+    "url": "https://github.com/givemetarte/chat-with-paper/issues"
   },
-  "homepage": "https://github.com/windingwind/zotero-plugin-template#readme",
+  "homepage": "https://github.com/givemetarte/chat-with-paper#readme",
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "start": "zotero-plugin serve",

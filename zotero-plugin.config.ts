@@ -23,6 +23,9 @@ export default defineConfig({
       buildVersion: pkg.version,
       buildTime: "{{buildTime}}",
     },
+    prefs: {
+      prefix: pkg.config.prefsPrefix,
+    },
     esbuildOptions: [
       {
         entryPoints: ["src/index.ts"],

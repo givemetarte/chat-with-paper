@@ -121,6 +121,11 @@ async function handleUserInput(input: HTMLTextAreaElement, chatMessages: HTMLEle
             vectorDB = new SimpleVectorDB();
             for (const chunk of chunks) {
                 const embedding = await createEmbedding(chunk);
+                
+                if (embedding.length === 0) {
+                    return "API key is not set. Please set it in the addon preferences."; // 함수의 실행을 중단하거나 적절한 처리를 추가
+                }
+
                 vectorDB.add(chunk, embedding);
             }
         }
