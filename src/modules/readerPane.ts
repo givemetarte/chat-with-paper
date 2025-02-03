@@ -9,8 +9,6 @@ import { SimpleVectorDB } from './tools/simpleVectorDB';
 import { searchRelevantContext } from './tools/searchRelevant';
 
 
-
-
 export function registerChatWithPDFPaneSection() {
     Zotero.ItemPaneManager.registerSection({
         paneID: "chat-with-pdf-tabpanel",
