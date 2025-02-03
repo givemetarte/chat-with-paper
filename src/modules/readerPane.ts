@@ -16,11 +16,11 @@ export function registerChatWithPDFPaneSection() {
         paneID: "chat-with-pdf-tabpanel",
         pluginID: config.addonID,
         header: {
-            l10nID: getLocaleID("item-section-chatwithpdf-head-text"),
+            l10nID: getLocaleID("item-section-chatwithpaper-head-text"),
             icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
         },
         sidenav: {
-            l10nID: getLocaleID("item-section-chatwithpdf-sidenav-tooltip"),
+            l10nID: getLocaleID("item-section-chatwithpaper-sidenav-tooltip"),
             icon: `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`,
         },
         bodyXHTML: `
