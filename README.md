@@ -24,6 +24,8 @@ Features about Chat with Paper:
 
 ### RAG-based response generation pipeline
 
+![rag pipeline](/demo/rag-pipeline.png)
+
 - 💬 Simple RAG based LLM chatbot!
   1. Extract text from Paper with [Zotero API](https://www.zotero.org/support/dev/client_coding/javascript_api)
   2. Split text into chunks (chunk size: 1024, overlaps: 200)
